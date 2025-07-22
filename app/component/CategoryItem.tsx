@@ -1,7 +1,13 @@
-const CategoryItem = () => {
+interface CategoryItemProps {
+  name?: string;
+  className?: string;
+}
+const CategoryItem = ({ name, className }: CategoryItemProps) => {
   return (
-    <div className="border rounded-full p-2 mx-0.5 text-sm">
-      <p className="">Business Marketing</p>
+    <div
+      className={`inline-block rounded-full p-2 mx-0.5 my-1 text-sm ${className}`}
+    >
+      <p className="">{name || "Business Marketing"}</p>
     </div>
   );
 };
