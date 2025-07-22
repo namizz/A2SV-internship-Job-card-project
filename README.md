@@ -1,7 +1,5 @@
 # Job Listing Application
 
-This project is part of a task series aimed at teaching core web development skills. From Task 6 onwards, you'll build and enhance a fully functional job listing application using React and Tailwind CSS.
-
 ## Project Description
 
 This application displays a list of job opportunities in card format. Clicking on a job shows its detailed description on a separate page. The layout and UI were built using Tailwind CSS and React, with data sourced from a JSON file.
