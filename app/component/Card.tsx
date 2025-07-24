@@ -7,6 +7,8 @@ interface cardProps {
   location?: string;
   description?: string;
   categories?: string[];
+  type?: string;
+  image?: string;
 }
 const Card = ({
   id,
@@ -15,6 +17,8 @@ const Card = ({
   location,
   description,
   categories,
+  type,
+  image,
 }: cardProps) => {
   const colr = [
     "border-yellow-500 text-yellow-500",
@@ -32,7 +36,10 @@ const Card = ({
         <div className=" mx-3 shrink-0">
           <img
             className="w-16 h-16 rounded-full object-cover"
-            src="https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            src={
+              image ||
+              "https://images.pexels.com/photos/1704488/pexels-photo-1704488.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
+            }
             alt="comany image"
           />
         </div>
@@ -50,7 +57,7 @@ const Card = ({
           </p>
           <div className="flex ">
             <CategoryItem
-              name="In Person"
+              name={type || "REmote"}
               className="bg-green-50 text-green-500"
             />{" "}
             <span className="text-3xl font-light text-gray-300 mx-1">|</span>

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import CategoryItem from "../../component/CategoryItem";
 import Box from "../../component/Boxes";
@@ -6,6 +7,8 @@ import AboutItem from "@/app/component/AboutItems";
 import Candidate from "@/app/component/Candidate";
 import ResponsiblitiesItem from "@/app/component/ResponsiblityList";
 import Link from "next/link";
+import { useGetJobByIdQuery } from "@/app/redux/api";
+import { use } from "react";
 
 import {
   FaCalendarAlt,
@@ -18,29 +21,44 @@ import {
 import { LuMapPin } from "react-icons/lu";
 
 interface JobDetailProps {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 const JobDetail = ({ params }: JobDetailProps) => {
-  const job = data.job_postings.find((j) => j.id === params.id);
-  if (!job) {
+  const id = use(params);
+  console.log(id?.id);
+  const { data, isLoading, isError } = useGetJobByIdQuery(id.id);
+
+  if (isLoading) {
     return (
-      <div className="text-center  mt-10">
-        Job not found for ID: {params.id}
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-gray-500 text-xl">Loading jobs...</p>
       </div>
     );
   }
-  const description = job.description;
-  const respo = job.responsibilities;
-  const age = job.ideal_candidate.age;
-  const gender = job.ideal_candidate.gender;
-  const candidate = job.ideal_candidate.traits;
-  const postedOn = job.about.posted_on;
-  const deadline = job.about.deadline;
-  const location = job.about.location;
-  const startDate = job.about.start_date;
-  const endDate = job.about.end_date;
-  const categories = job.about.categories;
-  const skills = job.about.required_skills;
+
+  if (isError) {
+    return (
+      <div className="text-center mt-10 text-red-500">Faild to load Jobs</div>
+    );
+  }
+  if (!data.data) {
+    return (
+      <div className="text-center mt-10 text-red-500">Job is not Found</div>
+    );
+  }
+  const description = data.data.description;
+  const respo = data.data.responsibilities;
+  const age = data.data.age;
+  const gender = data.data.gender;
+  const candidate = data.data.idealCandidate;
+  const postedOn = data.data.datePosted.split("T")[0];
+  const deadline = data.data.deadline.split("T")[0]; //
+  const location = data.data.location;
+  const startDate = data.data.startDate.split("T")[0];
+  const endDate = data.data.endDate.split("T")[0];
+  const categories = data.data.categories; //
+  const skills = data.data.requiredSkills;
+  const when = data.data.whenAndWhere;
 
   const tagColors = [
     "bg-green-50 text-green-500",
@@ -74,24 +92,21 @@ const JobDetail = ({ params }: JobDetailProps) => {
             </p>
           </Box>
           <Box title="Responsibilities">
-            {respo.map((r, i) => (
-              <ResponsiblitiesItem key={i}>{r}</ResponsiblitiesItem>
-            ))}
+            <ResponsiblitiesItem>{respo}</ResponsiblitiesItem>
           </Box>
           <Box title="Ideal Candidate we want">
             <ul className="list-disc pl-5">
-              {(gender.toLowerCase() == "male" ||
-                gender.toLowerCase() == "female") && (
+              {(gender?.toLowerCase() == "male" ||
+                gender?.toLowerCase() == "female") && (
                 <Candidate> {gender} Only</Candidate>
               )}
-              {age.toLowerCase() != "any" && (
+              {age && (
                 <Candidate>
                   <span className="font-bold">Age:</span> {age}
                 </Candidate>
               )}
-              {candidate.map((c, i) => (
-                <Candidate key={i}>{c}</Candidate>
-              ))}
+
+              <Candidate>{candidate}</Candidate>
             </ul>
           </Box>
           <Box title="When & Where">
@@ -99,7 +114,7 @@ const JobDetail = ({ params }: JobDetailProps) => {
               <LuMapPin className="w-5 h-5 text-blue-400" />
               <p>
                 The onboading event for this event will take place in Jan 18th
-                in AAU Auditorium{" "}
+                in {when || "AAU Auditorium"}{" "}
               </p>
             </div>
           </Box>
