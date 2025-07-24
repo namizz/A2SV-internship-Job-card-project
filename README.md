@@ -6,11 +6,12 @@ This application displays a list of job opportunities in card format. Clicking o
 
 ## Features
 
-- Displays a list of job postings in a card layout
-- Clicking a job card navigates to a detailed job page
-- A "Back to Home" button is included on the detail page
-- Responsive design using Tailwind CSS
-- Static JSON used for data population
+- Displays a list of job postings in a card layout  
+- Clicking a job card navigates to a detailed job page  
+- A "Back to Home" button is included on the detail page  
+- Responsive design using Tailwind CSS  
+- Static JSON used for data population  
+- **Redux Toolkit** used for querying data, and handling loading and error states
 
 ## UI Preview:
 
@@ -22,6 +23,14 @@ This application displays a list of job opportunities in card format. Clicking o
 
 ![Job Detail Page](public/pic2.png)
 
+### Loading Page
+
+![Loading Page](public/pic3.png)
+
+### Error Page
+
+![Error Page](public/pic4.png)
+
 ## Getting Started
 
 ### Installation
@@ -29,4 +38,3 @@ This application displays a list of job opportunities in card format. Clicking o
 ```bash
 npm install
 npm run dev
-```

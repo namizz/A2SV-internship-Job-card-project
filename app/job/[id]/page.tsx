@@ -36,18 +36,31 @@ const JobDetail = ({ params }: JobDetailProps) => {
     );
   }
 
-  if (isError) {
+   if (isError) {
+    console.error("Error fetching jobs:");
     return (
-      <div className="text-center mt-10 text-red-500">Faild to load Jobs</div>
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-red-500 text-lg">
+          Something went wrong. Please try again later.
+        </p>
+      </div>
     );
   }
-  if (!data.data) {
+   if (!data.data) {
     return (
-      <div className="text-center mt-10 text-red-500">Job is not Found</div>
+      <div className="flex justify-center items-center h-screen">
+        <p className="text-red-500 text-lg">
+          Job is not Found.
+        </p>
+      </div>
     );
   }
+  
   const description = data.data.description;
-  const respo = data.data.responsibilities;
+  const respo = data.data.responsibilities.split('.')
+  .map(sentence => sentence.trim())
+  .filter(sentence => sentence.length > 0)
+  .map(sentence => sentence + '.');
   const age = data.data.age;
   const gender = data.data.gender;
   const candidate = data.data.idealCandidate;
@@ -92,7 +105,8 @@ const JobDetail = ({ params }: JobDetailProps) => {
             </p>
           </Box>
           <Box title="Responsibilities">
-            <ResponsiblitiesItem>{respo}</ResponsiblitiesItem>
+            {respo.map((r,i)=><ResponsiblitiesItem key ={i} >{r}</ResponsiblitiesItem>)}
+            
           </Box>
           <Box title="Ideal Candidate we want">
             <ul className="list-disc pl-5">

@@ -19,7 +19,7 @@ export default function Home() {
 
   // Show error state
   if (isError) {
-    console.error("Error fetching jobs:", error);
+    console.error("Error fetching jobs:");
     return (
       <div className="flex justify-center items-center h-screen">
         <p className="text-red-500 text-lg">
